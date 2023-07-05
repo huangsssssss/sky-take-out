@@ -35,7 +35,7 @@ public class AutoFillAspect {
     public void autoFill(JoinPoint joinPoint){
         log.info("开始进行公共字段自动填充...");
 
-        //获取到当前被拦截的方法上的数据库操作类型
+        //获取到当前被拦截的方法上的数据库操作类型   获取注解、参数
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();//方法签名对象
         AutoFill autoFill = signature.getMethod().getAnnotation(AutoFill.class);//获得方法上的注解对象
         OperationType operationType = autoFill.value();//获得数据库操作类型
@@ -61,7 +61,7 @@ public class AutoFillAspect {
                 Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
                 Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
 
-                //通过反射为对象属性赋值
+                //通过反射为对象属性赋值   调用
                 setCreateTime.invoke(entity,now);
                 setCreateUser.invoke(entity,currentId);
                 setUpdateTime.invoke(entity,now);
